@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <a routerLink="/" class="brand">Tiwikom</a>
+
+  <div class="links">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/post-list">Posts</a>
+    <a routerLink="/admin" *ngIf="isLoggedIn()">Admin</a>
+
+    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+    <a *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
+  </div>
+</nav>

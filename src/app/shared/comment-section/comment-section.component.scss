@@ -1,0 +1,50 @@
+.comment-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+
+  .comment-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    textarea {
+      resize: none;
+      height: 60px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      align-self: flex-end;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .comment-list {
+    .comment {
+      margin-bottom: 0.75rem;
+      .author {
+        font-weight: bold;
+        .date {
+          font-weight: normal;
+          color: #666;
+          margin-left: 5px;
+          font-size: 0.8em;
+        }
+      }
+      .content {
+        margin: 0.2rem 0 0.5rem 0;
+      }
+    }
+  }
+}

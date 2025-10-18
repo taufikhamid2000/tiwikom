@@ -1,0 +1,25 @@
+<div class="post-list">
+  <h2>All Posts</h2>
+
+  <div *ngIf="posts.length === 0" class="empty">
+    <p>No posts available yet.</p>
+  </div>
+
+  <div *ngFor="let post of posts" class="post-card">
+    <h3>{{ post.title }}</h3>
+    <p class="meta">
+      by {{ post.userName }} — {{ post.departmentName }}
+      <span class="date">{{ post.createdAt | date: 'mediumDate' }}</span>
+    </p>
+    <p>{{ post.content }}</p>
+
+    <div class="stats">
+      <app-like-button
+        [likesCount]="post.likes"
+        [isLiked]="false">
+      </app-like-button>
+
+      <a [routerLink]="['/post', post.postId]" class="link">View details</a>
+    </div>
+  </div>
+</div>

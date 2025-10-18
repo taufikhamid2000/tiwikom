@@ -1,0 +1,15 @@
+<div class="comment-section">
+  <h3>Comments ({{ comments.length }})</h3>
+
+  <div class="comment-input">
+    <textarea [(ngModel)]="newComment" placeholder="Write a comment..."></textarea>
+    <button (click)="addComment()">Post</button>
+  </div>
+
+  <div class="comment-list">
+    <div class="comment" *ngFor="let c of comments">
+      <p class="author">{{ c.author }} <span class="date">{{ c.date | date: 'short' }}</span></p>
+      <p class="content">{{ c.content }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<button (click)="toggleLike()" class="like-btn">
+  <span [class.liked]="isLiked">❤️</span>
+  <span>{{ likesCount }}</span>
+</button>
