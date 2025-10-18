@@ -15,6 +15,12 @@
   gap: 20px;
 }
 
+a.btn-primary,
+a.btn-secondary {
+  text-decoration: none;
+  display: inline-block;
+}
+
 .btn-primary,
 .btn-secondary {
   padding: 10px 20px;
