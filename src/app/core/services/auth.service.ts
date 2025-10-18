@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { mockUsers } from '../../mock-data/mock-users';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,50 +9,61 @@ export class AuthService {
 
   private currentUser: User | null = null;
 
-  constructor() {
-    // Check if user is already logged in (from localStorage)
-    const savedUser = localStorage.getItem('user');
+  constructor(private storage: StorageService) {
+    // Check if user is already logged in
+    const savedUser = this.storage.getItem('user');
     if (savedUser) {
       this.currentUser = JSON.parse(savedUser);
     }
   }
 
-  // Simulate login by matching email/name from mock data
+  // Simulate login by matching username/password
   login(username: string, password: string): boolean {
-  const mockUsers = [
-    { username: 'admin', password: '12345' },
-    { username: 'user', password: 'abcde' }
-  ];
+    const mockUsers = [
+      {
+        userId: '1',
+        fullName: 'Admin User',
+        role: 'admin',
+        department: 'Management',
+        username: 'admin',
+        password: '12345'
+      },
+      {
+        userId: '2',
+        fullName: 'Regular User',
+        role: 'user',
+        department: 'Engineering',
+        username: 'user',
+        password: 'abcde'
+      }
+    ];
 
-  const user = mockUsers.find(
-    u => u.username === username && u.password === password
-  );
+    const user = mockUsers.find(
+      u => u.username === username && u.password === password
+    );
 
-  if (user) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    return true;
+    if (user) {
+      this.storage.setItem('user', JSON.stringify(user));
+      this.currentUser = user;
+      return true;
+    }
+
+    return false;
   }
 
-  return false;
-}
-
-  // Logout clears stored user
   logout(): void {
     this.currentUser = null;
-    localStorage.removeItem('user');
+    this.storage.removeItem('user');
   }
 
-  // Return current user info
   getCurrentUser(): User | null {
     return this.currentUser;
   }
 
-  // Check if user is logged in
   isLoggedIn(): boolean {
     return this.currentUser !== null;
   }
 
-  // Role checking helper (for guards, admin pages, etc.)
   hasRole(role: string): boolean {
     return this.currentUser?.role === role;
   }
