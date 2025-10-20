@@ -1,40 +1,263 @@
 .post-list {
   max-width: 800px;
-  margin: 50px auto;
-  padding: 0 20px;
+  margin: 20px auto;
+  padding: 0 16px;
+  width: 100%;
 
   h2 {
     margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5rem;
+  }
+
+  button {
+    display: inline-block;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    min-height: 44px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 200px;
+
+    &:hover {
+      background-color: #1565c0;
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
   }
 
   .empty {
     text-align: center;
     color: #777;
+    padding: 40px 20px;
+    font-size: 1rem;
   }
 
   .post-card {
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    h3 {
+      margin: 0 0 12px 0;
+      color: #333;
+      line-height: 1.3;
+      font-size: 1.2rem;
+    }
+    
+    p {
+      margin: 0 0 12px 0;
+      color: #666;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
   }
 
   .meta {
     color: #888;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    span {
+      background: #f5f5f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
   }
 
   .stats {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 0.9rem;
-    margin-top: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .likes-comments {
+      display: flex;
+      gap: 16px;
+      color: #666;
+    }
   }
 
   .link {
     color: #1976d2;
     text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.1);
+      text-decoration: none;
+    }
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .post-list {
+    margin: 16px auto;
+    padding: 0 12px;
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      max-width: none;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+    }
+
+    .post-card {
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+      
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+    }
+
+    .meta {
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      
+      span {
+        padding: 1px 6px;
+        font-size: 0.75rem;
+      }
+    }
+
+    .stats {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      
+      .likes-comments {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    .link {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      padding: 10px 16px;
+      margin-top: 8px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .post-list {
+    margin: 12px auto;
+    padding: 0 8px;
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    button {
+      padding: 12px 16px;
+      font-size: 0.95rem;
+    }
+
+    .post-card {
+      padding: 14px;
+      
+      h3 {
+        font-size: 1rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+      }
+    }
+
+    .meta {
+      font-size: 0.75rem;
+    }
+
+    .stats {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 769px) {
+  .post-list {
+    margin: 50px auto;
+    padding: 0 20px;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    button {
+      width: auto;
+      max-width: 250px;
+    }
+
+    .post-card {
+      padding: 24px;
+      
+      h3 {
+        font-size: 1.3rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .stats {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .link {
+      width: auto;
+    }
   }
 }

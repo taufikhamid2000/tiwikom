@@ -1,5 +1,8 @@
 <div class="post-list">
-  <h2>All Posts</h2>
+  <div class="header">
+    <h2>All Posts</h2>
+    <button class="btn-create" routerLink="/create-post">+ Create New Post</button>
+  </div>
 
   <div *ngIf="posts.length === 0" class="empty">
     <p>No posts available yet.</p>

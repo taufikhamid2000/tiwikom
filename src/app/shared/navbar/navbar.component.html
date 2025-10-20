@@ -1,12 +1,38 @@
 <nav class="navbar">
-  <a routerLink="/" class="brand">Tiwikom</a>
+  <a
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="brand"
+  >Tiwikom</a>
 
   <div class="links">
-    <a routerLink="/home">Home</a>
-    <a routerLink="/post-list">Posts</a>
-    <a routerLink="/admin" *ngIf="isLoggedIn()">Admin</a>
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >Home</a>
+
+    <a
+      routerLink="/post-list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >Posts</a>
+
+    <a
+      routerLink="/admin"
+      *ngIf="isLoggedIn()"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >Admin</a>
 
     <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
-    <a *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
+
+    <a
+      *ngIf="!isLoggedIn()"
+      routerLink="/login"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >Login</a>
   </div>
 </nav>
