@@ -45,6 +45,16 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.create-post-link {
+  background-color: rgba(255, 235, 59, 0.2) !important;
+  color: #ffeb3b !important;
+  font-weight: 600 !important;
+  
+  &:hover {
+    background-color: rgba(255, 235, 59, 0.3) !important;
+  }
+}
+
 button {
   background: #f44336;
   color: #fff;

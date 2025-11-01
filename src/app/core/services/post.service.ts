@@ -6,16 +6,52 @@ import { mockPosts } from '../../mock-data/mock-posts';
   providedIn: 'root'
 })
 export class PostService {
+  private posts: Post[] = [...mockPosts];
 
   constructor() {}
 
   // Get all posts
   getPosts(): Post[] {
-    return mockPosts;
+    return this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
   // Get post by ID
   getPostById(id: string): Post | undefined {
-    return mockPosts.find(p => p.postId === id);
+    return this.posts.find(p => p.postId === id);
+  }
+
+  // Create a new post
+  createPost(post: Post): void {
+    this.posts.unshift(post); // Add to beginning of array (newest first)
+  }
+
+  // Update an existing post
+  updatePost(postId: string, updates: Partial<Post>): boolean {
+    const index = this.posts.findIndex(p => p.postId === postId);
+    if (index !== -1) {
+      this.posts[index] = { ...this.posts[index], ...updates };
+      return true;
+    }
+    return false;
+  }
+
+  // Delete a post
+  deletePost(postId: string): boolean {
+    const index = this.posts.findIndex(p => p.postId === postId);
+    if (index !== -1) {
+      this.posts.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  // Add a like to a post
+  toggleLike(postId: string): boolean {
+    const post = this.getPostById(postId);
+    if (post) {
+      post.likes = Math.max(0, post.likes + 1); // Simple increment for now
+      return true;
+    }
+    return false;
   }
 }

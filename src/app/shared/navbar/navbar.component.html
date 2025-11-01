@@ -20,6 +20,14 @@
     >Posts</a>
 
     <a
+      *ngIf="isLoggedIn()"
+      routerLink="/create-post"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="create-post-link"
+    >+ Create</a>
+
+    <a
       routerLink="/admin"
       *ngIf="isLoggedIn()"
       routerLinkActive="active"

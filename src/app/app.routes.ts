@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { PostListComponent } from './features/post-list/post-list.component';
 import { PostDetailComponent } from './features/post-detail/post-detail.component';
+import { CreatePostComponent } from './features/create-post/create-post.component';
 import { LoginComponent } from './features/login/login.component';
 import { AdminComponent } from './features/admin/admin.component';
 import { AuthGuard } from './core/guards/auth.guard';
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'post-list', component: PostListComponent },
   { path: 'post/:id', component: PostDetailComponent },
+  { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
 ];
