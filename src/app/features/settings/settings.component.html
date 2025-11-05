@@ -14,7 +14,7 @@
       </div>
       <div class="setting-control">
         <label class="toggle-switch">
-          <input type="checkbox" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" />
+          <input type="checkbox" [checked]="isDarkMode" (change)="toggleDarkMode()" />
           <span class="slider"></span>
         </label>
       </div>

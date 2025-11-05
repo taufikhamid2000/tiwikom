@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../../core/services/theme.service';
@@ -8,7 +8,8 @@ import { ThemeService } from '../../core/services/theme.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent implements OnInit {
   isDarkMode = false;
@@ -26,7 +27,7 @@ export class SettingsComponent implements OnInit {
     { name: 'Pink', value: '#e91e63' }
   ];
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.isDarkMode = this.themeService.isDarkMode();
@@ -36,12 +37,14 @@ export class SettingsComponent implements OnInit {
   toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
     this.themeService.setDarkMode(this.isDarkMode);
+    this.cdr.markForCheck();
   }
 
   setThemeColor(color: string): void {
     this.themeColor = color;
     this.themeService.setThemeColor(color);
     this.showCustomInput = false;
+    this.cdr.markForCheck();
   }
 
   applyCustomColor(): void {
@@ -56,6 +59,7 @@ export class SettingsComponent implements OnInit {
     if (!this.showCustomInput) {
       this.customColor = '';
     }
+    this.cdr.markForCheck();
   }
 
   resetSettings(): void {
@@ -65,5 +69,6 @@ export class SettingsComponent implements OnInit {
     this.customColor = '';
     this.themeService.setDarkMode(false);
     this.themeService.setThemeColor('#1976d2');
+    this.cdr.markForCheck();
   }
 }
