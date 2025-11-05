@@ -6,6 +6,65 @@
     class="brand"
   >Tiwikom</a>
 
+  <!-- Hamburger Menu Icon -->
+  <button class="hamburger" (click)="toggleMenu()" [class.active]="isMenuOpen">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >Home</a>
+
+    <a
+      routerLink="/post-list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >Posts</a>
+
+    <a
+      *ngIf="isLoggedIn()"
+      routerLink="/create-post"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="create-post-link"
+      (click)="closeMenu()"
+    >+ Create</a>
+
+    <a
+      routerLink="/admin"
+      *ngIf="isAdmin()"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >Admin</a>
+
+    <a
+      routerLink="/settings"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >Settings</a>
+
+    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+
+    <a
+      *ngIf="!isLoggedIn()"
+      routerLink="/login"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >Login</a>
+  </div>
+
+  <!-- Desktop Menu -->
   <div class="links">
     <a
       routerLink="/home"
@@ -38,7 +97,7 @@
       routerLink="/settings"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
-    >⚙️ Settings</a>
+    >Settings</a>
 
     <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 

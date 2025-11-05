@@ -11,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  isMenuOpen = false;
   
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -22,8 +23,17 @@ export class NavbarComponent {
     return this.authService.isLoggedIn() && this.authService.hasRole('admin');
   }
 
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
   logout(): void {
     this.authService.logout();
+    this.closeMenu();
     this.router.navigate(['/login']);
     console.log('Logged out');
   }
