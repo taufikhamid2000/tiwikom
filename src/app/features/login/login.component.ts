@@ -19,14 +19,11 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    console.log('Attempting login with:', this.username, this.password); // Debug log
     const success = this.authService.login(this.username, this.password);
     if (success) {
-      console.log('Login successful, redirecting...'); // Debug log
       this.errorMessage = '';
       this.router.navigate(['/home']); // Redirect to home on success
     } else {
-      console.log('Login failed'); // Debug log
       this.errorMessage = 'Invalid username or password';
     }
   }
