@@ -1,0 +1,77 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Settings</h1>
+    <p class="subtitle">Customize your app experience</p>
+  </div>
+
+  <div class="settings-section">
+    <h2>Dark Mode</h2>
+
+    <div class="setting-item">
+      <div class="setting-label">
+        <label>Dark Mode</label>
+        <p class="setting-description">Enable dark theme for comfortable viewing</p>
+      </div>
+      <div class="setting-control">
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="isDarkMode" (change)="toggleDarkMode()" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h2>Theme Color</h2>
+
+    <div class="setting-item">
+      <div class="setting-label">
+        <label>Select Theme Color</label>
+        <p class="setting-description">Choose your primary theme color</p>
+      </div>
+    </div>
+
+    <div class="color-palette">
+      <div 
+        *ngFor="let color of availableColors" 
+        class="color-option"
+        [style.background-color]="color.value"
+        [class.active]="color.value === themeColor"
+        (click)="setThemeColor(color.value)"
+        [title]="color.name"
+      >
+        <span *ngIf="color.value === themeColor" class="checkmark">✓</span>
+      </div>
+    </div>
+
+    <div class="custom-color-section">
+      <button class="btn btn-outline" (click)="toggleCustomInput()">
+        {{ showCustomInput ? 'Hide Custom Color' : 'Use Custom Color' }}
+      </button>
+
+      <div *ngIf="showCustomInput" class="custom-color-input">
+        <label for="colorPicker">Enter Hex Color Code:</label>
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="colorPicker" 
+            [(ngModel)]="customColor"
+            placeholder="#000000"
+            (keyup.enter)="applyCustomColor()"
+          />
+          <input 
+            type="color" 
+            [(ngModel)]="customColor"
+            (change)="applyCustomColor()"
+          />
+          <button class="btn btn-primary btn-sm" (click)="applyCustomColor()">Apply</button>
+        </div>
+        <p class="help-text">Format: #RRGGBB (e.g., #FF5733)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-actions">
+    <button class="btn btn-secondary" (click)="resetSettings()">Reset to Default</button>
+  </div>
+</div>

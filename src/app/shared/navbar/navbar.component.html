@@ -34,6 +34,12 @@
       [routerLinkActiveOptions]="{ exact: true }"
     >Admin</a>
 
+    <a
+      routerLink="/settings"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >⚙️ Settings</a>
+
     <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 
     <a

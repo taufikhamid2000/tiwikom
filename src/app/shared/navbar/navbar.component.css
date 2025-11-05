@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+  background: var(--primary-color, #3f51b5);
   color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   position: sticky;
@@ -31,7 +31,7 @@
   color: #fff;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
   padding: 8px 12px;
   border-radius: 4px;
   min-height: 44px;
@@ -41,22 +41,22 @@
 }
 
 .navbar a:hover {
-  color: #ffeb3b;
-  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .create-post-link {
-  background-color: rgba(255, 235, 59, 0.2) !important;
-  color: #ffeb3b !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
   font-weight: 600 !important;
   
   &:hover {
-    background-color: rgba(255, 235, 59, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
   }
 }
 
 button {
-  background: #f44336;
+  background: #dc3545;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -69,13 +69,13 @@ button {
 }
 
 button:hover {
-  background: #d32f2f;
+  background: #c82333;
 }
 
 a.active {
   font-weight: 700;
-  background-color: rgba(255, 235, 59, 0.2);
-  color: #ffeb3b;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 /* Mobile responsive adjustments */

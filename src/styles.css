@@ -1,5 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* CSS Variables for theme */
+:root {
+  --primary-color: #1976d2;
+  --primary-dark: #1565c0;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f9fafc;
+  --border-color: #dddddd;
+}
+
+/* Dark mode CSS variables */
+body.dark-mode {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --card-bg: #2a2a2a;
+  --border-color: #444444;
+}
+
 /* Global mobile-first responsive design */
 * {
   box-sizing: border-box;
@@ -16,6 +34,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Mobile-first responsive typography */
@@ -54,10 +75,18 @@ button {
 
 input, textarea, select {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
 /* Responsive images */

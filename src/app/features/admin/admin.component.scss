@@ -2,21 +2,23 @@
   max-width: 800px;
   margin: 20px auto;
   padding: 24px;
-  background: #fff;
+  background: var(--card-bg, #fff);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color, #ddd);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   width: calc(100% - 40px);
+  color: var(--text-color, #333);
 }
 
 h2 {
-  color: #1976d2;
+  color: var(--primary-color, #1976d2);
   margin-bottom: 16px;
   font-size: 1.5rem;
   line-height: 1.2;
 }
 
 p {
-  color: #555;
+  color: var(--text-color, #555);
   line-height: 1.6;
   font-size: 1rem;
   margin-bottom: 16px;
