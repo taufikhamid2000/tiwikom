@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +11,20 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  
+  constructor(private authService: AuthService, private router: Router) {}
+
   isLoggedIn(): boolean {
-    return true; // temporary mock
+    return this.authService.isLoggedIn();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isLoggedIn() && this.authService.hasRole('admin');
   }
 
   logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
     console.log('Logged out');
   }
 }

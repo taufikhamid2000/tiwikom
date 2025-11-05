@@ -6,6 +6,7 @@ import { CreatePostComponent } from './features/create-post/create-post.componen
 import { LoginComponent } from './features/login/login.component';
 import { AdminComponent } from './features/admin/admin.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,5 +15,5 @@ export const routes: Routes = [
   { path: 'post/:id', component: PostDetailComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }
 ];

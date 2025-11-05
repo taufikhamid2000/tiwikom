@@ -16,7 +16,7 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {} // ✅ no provider needed
+  constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     console.log('Attempting login with:', this.username, this.password); // Debug log
