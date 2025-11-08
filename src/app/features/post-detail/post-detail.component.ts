@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, NgIf, NgFor, DatePipe } from '@angular/common';
-import { mockPosts } from '../../mock-data/mock-posts';
+import { PostService } from '../../core/services/post.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -12,11 +13,34 @@ import { mockPosts } from '../../mock-data/mock-posts';
 })
 export class PostDetailComponent implements OnInit {
   post: any;
+  isOwner = false;
+  currentUserId: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.post = mockPosts.find(p => p.postId === id);
+    if (id) {
+      this.post = this.postService.getPostById(id);
+      if (!this.post) {
+        this.router.navigate(['/post-list']);
+        return;
+      }
+
+      const currentUser = this.authService.getCurrentUser();
+      this.currentUserId = currentUser?.userId || null;
+      this.isOwner = this.post.userId === this.currentUserId;
+    }
+  }
+
+  editPost(): void {
+    if (this.post && this.isOwner) {
+      this.router.navigate(['/create-post'], { queryParams: { id: this.post.postId, edit: true } });
+    }
   }
 }

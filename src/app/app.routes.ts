@@ -6,7 +6,9 @@ import { CreatePostComponent } from './features/create-post/create-post.componen
 import { LoginComponent } from './features/login/login.component';
 import { SignupComponent } from './features/signup/signup.component';
 import { AdminComponent } from './features/admin/admin.component';
+import { ManagePostsComponent } from './features/admin/manage-posts/manage-posts.component';
 import { SettingsComponent } from './features/settings/settings.component';
+import { MyPostsComponent } from './features/my-posts/my-posts.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
@@ -16,8 +18,10 @@ export const routes: Routes = [
   { path: 'post-list', component: PostListComponent },
   { path: 'post/:id', component: PostDetailComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
+  { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+  { path: 'admin/manage-posts', component: ManagePostsComponent, canActivate: [AdminGuard] }
 ];

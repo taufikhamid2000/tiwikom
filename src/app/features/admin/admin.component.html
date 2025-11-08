@@ -1,2 +1,78 @@
-<h2>{{ title }}</h2>
-<p>This is the admin page. Admin features will be added later.</p>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Platform overview and statistics</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📝</div>
+      <div class="stat-content">
+        <h3>Total Posts</h3>
+        <p class="stat-number">{{ totalPosts }}</p>
+        <span class="stat-label">Active content</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <h3>Total Users</h3>
+        <p class="stat-number">{{ totalUsers }}</p>
+        <span class="stat-label">Registered members</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💬</div>
+      <div class="stat-content">
+        <h3>Total Comments</h3>
+        <p class="stat-number">{{ totalComments }}</p>
+        <span class="stat-label">Community engagement</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">❤️</div>
+      <div class="stat-content">
+        <h3>Total Likes</h3>
+        <p class="stat-number">{{ totalLikes }}</p>
+        <span class="stat-label">Content appreciation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="section-header">
+      <h2>Recent Posts</h2>
+      <button class="manage-posts-btn" (click)="goToManagePosts()">
+        ⚙️ Manage All Posts
+      </button>
+    </div>
+    <div *ngIf="recentPosts.length > 0; else noPosts" class="recent-posts">
+      <div *ngFor="let post of recentPosts" class="post-item">
+        <div class="post-header">
+          <h3>{{ post.title }}</h3>
+          <span class="post-author">by {{ post.userName }}</span>
+        </div>
+        <p class="post-excerpt">{{ post.content.substring(0, 100) }}...</p>
+        <div class="post-meta">
+          <span>💬 {{ post.comments?.length || 0 }} comments</span>
+          <span>❤️ {{ post.likes }} likes</span>
+          <span>📅 {{ formatDate(post.createdAt) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noPosts>
+      <div class="empty-state">
+        <p>No posts yet. Community content will appear here.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="admin-info">
+    <h2>Admin Info</h2>
+    <p>You have full access to platform management and can view all statistics, manage content, and monitor community activity.</p>
+  </div>
+</div>

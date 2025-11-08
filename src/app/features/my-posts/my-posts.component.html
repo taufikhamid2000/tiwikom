@@ -1,0 +1,66 @@
+<div class="my-posts-container">
+  <div class="page-header">
+    <h1>My Posts</h1>
+    <p class="subtitle">Manage your published content</p>
+  </div>
+
+  <div *ngIf="userPosts.length > 0; else noPosts" class="posts-section">
+    <div class="posts-list">
+      <div *ngFor="let post of userPosts" class="post-card" [class.selected]="selectedPost?.postId === post.postId">
+        <div class="post-card-header" (click)="selectPost(post)">
+          <div class="post-title-section">
+            <h3>{{ post.title }}</h3>
+            <span class="post-date">{{ formatDate(post.createdAt) }}</span>
+          </div>
+          <div class="post-stats">
+            <span class="stat">💬 {{ post.comments?.length || 0 }}</span>
+            <span class="stat">❤️ {{ post.likes }}</span>
+            <span class="expand-icon">{{ selectedPost?.postId === post.postId ? '▲' : '▼' }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="selectedPost?.postId === post.postId" class="post-card-details">
+          <div class="post-content">
+            <p>{{ post.content }}</p>
+          </div>
+
+          <div class="post-meta">
+            <span class="department">📁 {{ post.departmentName }}</span>
+          </div>
+
+          <div class="post-actions">
+            <button class="btn btn-primary" (click)="goToPost(post.postId)">View Full Post</button>
+            <button class="btn btn-secondary" (click)="editPost(post)">Edit</button>
+            <button class="btn btn-danger" (click)="confirmDelete(post)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noPosts>
+    <div class="empty-state">
+      <div class="empty-icon">📝</div>
+      <h2>No Posts Yet</h2>
+      <p>You haven't created any posts. Start sharing your knowledge today!</p>
+      <button class="btn btn-primary" routerLink="/create-post">Create Your First Post</button>
+    </div>
+  </ng-template>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteConfirm" class="modal-overlay" (click)="cancelDelete()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Delete Post?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete "<strong>{{ postToDelete?.title }}</strong>"?</p>
+        <p class="warning">This action cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="deletePost()">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+</div>

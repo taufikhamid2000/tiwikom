@@ -48,10 +48,34 @@
     font-weight: 600;
     margin-bottom: 24px;
     color: var(--text-color, #666);
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  }
+
+  .actions {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border-color, #eee);
+
+    .edit-btn {
+      padding: 10px 20px;
+      background: var(--primary-color, #1976d2);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--primary-dark, #1565c0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
   }
 
   .comments-section {

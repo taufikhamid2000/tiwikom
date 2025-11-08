@@ -1,0 +1,122 @@
+<div class="manage-posts-container">
+  <div class="manage-header">
+    <button class="back-btn" (click)="goBack()">← Back to Admin</button>
+    <h1>Manage Posts</h1>
+    <p class="subtitle">View, edit, and delete all posts on the platform</p>
+  </div>
+
+  <div class="controls-section">
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search posts by title, content, or author..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input"
+      />
+    </div>
+
+    <div class="controls-row">
+      <div class="sort-control">
+        <label for="sortBy">Sort by:</label>
+        <select id="sortBy" [(ngModel)]="sortBy" (change)="onSortChange()" class="sort-select">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="mostLikes">Most Likes</option>
+          <option value="mostComments">Most Comments</option>
+        </select>
+      </div>
+
+      <div class="action-buttons" *ngIf="selectedPosts.size > 0">
+        <span class="selection-info">{{ selectedPosts.size }} selected</span>
+        <button class="btn btn-danger" (click)="deleteSelectedPosts()">
+          Delete Selected
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="posts-section">
+    <div class="posts-header">
+      <div class="select-all">
+        <input
+          type="checkbox"
+          [checked]="isAllSelected()"
+          (change)="selectAll()"
+          class="select-checkbox"
+        />
+        <span>Select All</span>
+      </div>
+      <div class="posts-count">Total: {{ filteredPosts.length }} post(s)</div>
+    </div>
+
+    <div *ngIf="filteredPosts.length > 0; else noPosts" class="posts-list">
+      <div *ngFor="let post of filteredPosts" class="post-card" [class.selected]="isPostSelected(post.postId)">
+        <div class="post-checkbox">
+          <input
+            type="checkbox"
+            [checked]="isPostSelected(post.postId)"
+            (change)="toggleSelectPost(post.postId)"
+            class="select-checkbox"
+          />
+        </div>
+
+        <div class="post-content">
+          <div class="post-title-section">
+            <h3 class="post-title">{{ post.title }}</h3>
+            <span class="post-author">by {{ post.userName }}</span>
+          </div>
+
+          <p class="post-preview">{{ post.content.substring(0, 100) }}...</p>
+
+          <div class="post-meta">
+            <span class="meta-item">
+              <span class="meta-label">Department:</span>
+              <span>{{ post.departmentName }}</span>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">Created:</span>
+              <span>{{ formatDate(post.createdAt) }}</span>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">💬 Comments:</span>
+              <span>{{ post.comments.length || 0 }}</span>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">❤️ Likes:</span>
+              <span>{{ post.likes }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="post-actions">
+          <button class="btn btn-primary" (click)="viewPost(post.postId)" title="View post">
+            👁️ View
+          </button>
+          <button class="btn btn-danger" (click)="openDeleteConfirm(post.postId)" title="Soft delete post">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noPosts>
+      <div class="empty-state">
+        <p>No posts found.</p>
+        <span class="empty-hint" *ngIf="searchQuery">Try adjusting your search criteria.</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteConfirm" class="modal-overlay" (click)="closeDeleteConfirm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Confirm Delete</h2>
+      <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="closeDeleteConfirm()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

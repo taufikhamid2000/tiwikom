@@ -10,13 +10,25 @@ export class PostService {
 
   constructor() {}
 
-  // Get all posts
+  // Get all active posts (excluding soft deleted)
   getPosts(): Post[] {
+    return this.posts
+      .filter(p => !p.isDeleted)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  // Get all posts including deleted (for admin view)
+  getAllPostsIncludingDeleted(): Post[] {
     return this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
-  // Get post by ID
+  // Get post by ID (active only)
   getPostById(id: string): Post | undefined {
+    return this.posts.find(p => p.postId === id && !p.isDeleted);
+  }
+
+  // Get post by ID including deleted posts
+  getPostByIdIncludingDeleted(id: string): Post | undefined {
     return this.posts.find(p => p.postId === id);
   }
 
@@ -35,7 +47,21 @@ export class PostService {
     return false;
   }
 
-  // Delete a post
+  // Soft delete a post
+  softDeletePost(postId: string): boolean {
+    const index = this.posts.findIndex(p => p.postId === postId);
+    if (index !== -1) {
+      this.posts[index] = {
+        ...this.posts[index],
+        isDeleted: true,
+        deletedAt: new Date().toISOString()
+      };
+      return true;
+    }
+    return false;
+  }
+
+  // Hard delete a post (permanent)
   deletePost(postId: string): boolean {
     const index = this.posts.findIndex(p => p.postId === postId);
     if (index !== -1) {

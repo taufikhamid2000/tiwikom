@@ -23,6 +23,10 @@
       </app-like-button>
 
       <a [routerLink]="['/post', post.postId]" class="link">View details</a>
+      
+      <button *ngIf="isPostOwner(post)" class="btn-edit" (click)="editPost(post.postId)">
+        ✏️ Edit
+      </button>
     </div>
   </div>
 </div>

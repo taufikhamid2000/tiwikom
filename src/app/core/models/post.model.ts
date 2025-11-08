@@ -10,4 +10,6 @@ export interface Post {
   createdAt: string;
   likes: number;
   comments: Comment[];
+  isDeleted?: boolean;
+  deletedAt?: string;
 }

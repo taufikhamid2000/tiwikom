@@ -126,6 +126,32 @@
       text-decoration: none;
     }
   }
+
+  .btn-edit {
+    background: var(--primary-color, #1976d2);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 36px;
+
+    &:hover {
+      background: var(--primary-dark, #1565c0);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
 }
 
 /* Mobile responsive adjustments */

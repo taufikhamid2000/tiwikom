@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe, NgFor, NgIf } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { PostService } from '../../core/services/post.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Post } from '../../core/models/post.model';
 import { LikeButtonComponent } from '../../shared/like-button/like-button.component';
 
@@ -14,10 +15,17 @@ import { LikeButtonComponent } from '../../shared/like-button/like-button.compon
 })
 export class PostListComponent implements OnInit {
   posts: Post[] = [];
+  currentUserId: string | null = null;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    this.currentUserId = currentUser?.userId || null;
     this.loadPosts();
   }
 
@@ -25,8 +33,18 @@ export class PostListComponent implements OnInit {
     this.posts = this.postService.getPosts();
   }
 
-  // Refresh posts when returning to this page
   ionViewWillEnter(): void {
     this.loadPosts();
+  }
+
+  isPostOwner(post: Post): boolean {
+    return post.userId === this.currentUserId;
+  }
+
+  editPost(postId: string): void {
+    const post = this.posts.find(p => p.postId === postId);
+    if (post && this.isPostOwner(post)) {
+      this.router.navigate(['/create-post'], { queryParams: { id: postId, edit: true } });
+    }
   }
 }

@@ -39,6 +39,14 @@
     >+ Create</a>
 
     <a
+      *ngIf="isLoggedIn()"
+      routerLink="/my-posts"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >My Posts</a>
+
+    <a
       routerLink="/admin"
       *ngIf="isAdmin()"
       routerLinkActive="active"
@@ -83,8 +91,14 @@
       routerLink="/create-post"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
-      class="create-post-link"
     >+ Create</a>
+
+    <a
+      *ngIf="isLoggedIn()"
+      routerLink="/my-posts"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >My Posts</a>
 
     <a
       routerLink="/admin"
