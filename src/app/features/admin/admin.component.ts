@@ -51,4 +51,8 @@ export class AdminComponent implements OnInit {
   goToManagePosts(): void {
     this.router.navigate(['/admin/manage-posts']);
   }
+
+  goToManageUsers(): void {
+    this.router.navigate(['/admin/manage-users']);
+  }
 }

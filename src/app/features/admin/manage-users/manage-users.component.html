@@ -1,0 +1,195 @@
+<div class="manage-users-container">
+  <div class="manage-header">
+    <button class="back-btn" (click)="goBack()">← Back to Admin</button>
+    <h1>Manage Users</h1>
+    <p class="subtitle">View and manage all platform users</p>
+  </div>
+
+  <div class="controls-section">
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search users by name, department, or role..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input"
+      />
+    </div>
+
+    <div class="controls-row">
+      <div class="sort-control">
+        <label for="sortBy">Sort by:</label>
+        <select id="sortBy" [(ngModel)]="sortBy" (change)="onSortChange()" class="sort-select">
+          <option value="name">Name</option>
+          <option value="department">Department</option>
+          <option value="role">Role</option>
+        </select>
+      </div>
+
+      <button class="btn btn-success" (click)="openAddUserForm()" title="Add a new user">
+        ➕ Add User
+      </button>
+
+      <div class="action-buttons" *ngIf="selectedUsers.size > 0">
+        <span class="selection-info">{{ selectedUsers.size }} selected</span>
+        <button class="btn btn-danger" (click)="deleteSelectedUsers()">
+          Delete Selected
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="users-section">
+    <div class="users-header">
+      <div class="select-all">
+        <input
+          type="checkbox"
+          [checked]="isAllSelected()"
+          (change)="selectAll()"
+          class="select-checkbox"
+        />
+        <span>Select All</span>
+      </div>
+      <div class="users-count">Total: {{ filteredUsers.length }} user(s)</div>
+    </div>
+
+    <div *ngIf="filteredUsers.length > 0; else noUsers" class="users-list">
+      <div *ngFor="let user of filteredUsers" class="user-card" [class.selected]="isUserSelected(user.userId)">
+        <div class="user-checkbox">
+          <input
+            type="checkbox"
+            [checked]="isUserSelected(user.userId)"
+            (change)="toggleSelectUser(user.userId)"
+            class="select-checkbox"
+          />
+        </div>
+
+        <div class="user-content">
+          <div class="user-name-section">
+            <h3 class="user-name">{{ user.fullName }}</h3>
+            <span [ngClass]="getRoleColor(user.role)" class="role-badge">{{ user.role }}</span>
+          </div>
+
+          <div class="user-meta">
+            <span class="meta-item">
+              <span class="meta-label">Department:</span>
+              <span>{{ user.department }}</span>
+            </span>
+            <span class="meta-item">
+              <span class="meta-label">User ID:</span>
+              <span class="user-id">{{ user.userId }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button class="btn btn-primary" (click)="viewUserDetails(user.userId)" title="View user details">
+            👁️ View
+          </button>
+          <button class="btn btn-danger" (click)="openDeleteConfirm(user.userId)" title="Delete user">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noUsers>
+      <div class="empty-state">
+        <p>No users found.</p>
+        <span class="empty-hint" *ngIf="searchQuery">Try adjusting your search criteria.</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteConfirm" class="modal-overlay" (click)="closeDeleteConfirm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Confirm Delete</h2>
+      <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="closeDeleteConfirm()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div *ngIf="showAddUserForm" class="modal-overlay" (click)="closeAddUserForm()">
+    <div class="modal-content add-user-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Add New User</h2>
+        <button class="close-btn" (click)="closeAddUserForm()">✕</button>
+      </div>
+
+      <form (ngSubmit)="submitAddUser()" class="add-user-form">
+        <div *ngIf="addUserError" class="error-message">
+          {{ addUserError }}
+        </div>
+
+        <div class="form-group">
+          <label for="userId">User ID *</label>
+          <input
+            type="text"
+            id="userId"
+            [(ngModel)]="newUser.userId"
+            name="userId"
+            placeholder="e.g., u4"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input
+            type="text"
+            id="fullName"
+            [(ngModel)]="newUser.fullName"
+            name="fullName"
+            placeholder="e.g., John Doe"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department *</label>
+          <input
+            type="text"
+            id="department"
+            [(ngModel)]="newUser.department"
+            name="department"
+            placeholder="e.g., IT, HR, Operations"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select
+            id="role"
+            [(ngModel)]="newUser.role"
+            name="role"
+            class="form-select"
+          >
+            <option value="User">User</option>
+            <option value="Senior">Senior</option>
+            <option value="Admin">Admin</option>
+            <option value="Moderator">Moderator</option>
+            <option value="Intern">Intern</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeAddUserForm()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success">
+            Add User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

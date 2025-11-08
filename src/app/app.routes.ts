@@ -7,6 +7,7 @@ import { LoginComponent } from './features/login/login.component';
 import { SignupComponent } from './features/signup/signup.component';
 import { AdminComponent } from './features/admin/admin.component';
 import { ManagePostsComponent } from './features/admin/manage-posts/manage-posts.component';
+import { ManageUsersComponent } from './features/admin/manage-users/manage-users.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { MyPostsComponent } from './features/my-posts/my-posts.component';
 import { AuthGuard } from './core/guards/auth.guard';
@@ -23,5 +24,7 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
-  { path: 'admin/manage-posts', component: ManagePostsComponent, canActivate: [AdminGuard] }
+  { path: 'admin/manage-posts', component: ManagePostsComponent, canActivate: [AdminGuard] },
+  { path: 'admin/manage-users', component: ManageUsersComponent, canActivate: [AdminGuard] }
 ];
+

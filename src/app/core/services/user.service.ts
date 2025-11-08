@@ -16,4 +16,13 @@ export class UserService {
   getUserById(id: string): User | undefined {
     return mockUsers.find(u => u.userId === id);
   }
+
+  addUser(user: User): boolean {
+    // Check if user ID already exists
+    if (mockUsers.find(u => u.userId === user.userId)) {
+      return false;
+    }
+    mockUsers.push(user);
+    return true;
+  }
 }

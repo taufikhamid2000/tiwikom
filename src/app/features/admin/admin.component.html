@@ -45,9 +45,14 @@
   <div class="admin-section">
     <div class="section-header">
       <h2>Recent Posts</h2>
-      <button class="manage-posts-btn" (click)="goToManagePosts()">
-        ⚙️ Manage All Posts
-      </button>
+      <div class="button-group">
+        <button class="manage-btn" (click)="goToManagePosts()">
+          📝 Manage Posts
+        </button>
+        <button class="manage-btn" (click)="goToManageUsers()">
+          👥 Manage Users
+        </button>
+      </div>
     </div>
     <div *ngIf="recentPosts.length > 0; else noPosts" class="recent-posts">
       <div *ngFor="let post of recentPosts" class="post-item">
