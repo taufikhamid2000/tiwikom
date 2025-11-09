@@ -18,14 +18,99 @@
   </div>
 
   <div class="comments-section">
-    <h3>Comments</h3>
-    <div *ngIf="post.comments.length === 0" class="no-comments">
-      <p>No comments yet.</p>
+    <h3>Comments ({{ post.comments?.length || 0 }})</h3>
+
+    <!-- Comment Input Form -->
+    <div *ngIf="isAuthenticated" class="comment-input">
+      <textarea 
+        [(ngModel)]="newComment" 
+        placeholder="Share your thoughts..."
+        class="comment-textarea"
+      ></textarea>
+      <button 
+        (click)="addComment()" 
+        [disabled]="!newComment.trim()"
+        class="comment-btn"
+      >
+        Post Comment
+      </button>
     </div>
 
-    <div *ngFor="let c of post.comments" class="comment">
-      <p class="comment-meta">{{ c.userName }} • {{ c.createdAt | date: 'short' }}</p>
-      <p>{{ c.content }}</p>
+    <div *ngIf="!isAuthenticated" class="login-prompt">
+      <p>Sign in to leave a comment</p>
     </div>
+
+    <!-- Comments List -->
+    <div *ngIf="post.comments && post.comments.length > 0; else noComments" class="comments-list">
+      <div *ngFor="let c of post.comments" class="comment">
+        <div class="comment-header">
+          <p class="comment-author">{{ c.userName }}</p>
+          <p class="comment-date">{{ c.createdAt | date: 'short' }}</p>
+        </div>
+        <p class="comment-content">{{ c.content }}</p>
+
+        <!-- Reply Button -->
+        <div class="comment-actions">
+          <button 
+            class="reply-btn" 
+            (click)="toggleReplyForm(c.commentId)"
+            *ngIf="isAuthenticated"
+          >
+            {{ replyingTo === c.commentId ? '✕ Cancel' : '↩️ Reply' }}
+          </button>
+
+          <!-- Reply Count Button -->
+          <button 
+            *ngIf="getReplies(c.commentId).length > 0"
+            class="view-replies-btn"
+            (click)="toggleExpandReplies(c.commentId)"
+          >
+            {{ isRepliesExpanded(c.commentId) ? '▼' : '▶' }} 
+            {{ getReplies(c.commentId).length }} {{ getReplies(c.commentId).length === 1 ? 'reply' : 'replies' }}
+          </button>
+        </div>
+
+        <!-- Reply Form -->
+        <div *ngIf="replyingTo === c.commentId" class="reply-form">
+          <textarea 
+            [(ngModel)]="replyText" 
+            placeholder="Write a reply..."
+            class="reply-textarea"
+          ></textarea>
+          <div class="reply-actions">
+            <button 
+              class="send-reply-btn"
+              (click)="addReply(c.commentId)"
+              [disabled]="!replyText.trim()"
+            >
+              Post Reply
+            </button>
+            <button 
+              class="cancel-reply-btn"
+              (click)="toggleReplyForm(c.commentId)"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- Replies List -->
+        <div *ngIf="isRepliesExpanded(c.commentId) && getReplies(c.commentId).length > 0" class="replies-list">
+          <div *ngFor="let r of getReplies(c.commentId)" class="reply">
+            <div class="reply-header">
+              <p class="reply-author">{{ r.userName }}</p>
+              <p class="reply-date">{{ r.createdAt | date: 'short' }}</p>
+            </div>
+            <p class="reply-content">{{ r.content }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noComments>
+      <div class="no-comments">
+        <p>No comments yet. Be the first to comment!</p>
+      </div>
+    </ng-template>
   </div>
 </div>
