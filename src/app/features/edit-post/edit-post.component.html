@@ -1,0 +1,101 @@
+<div class="edit-post-container">
+  <div class="header">
+    <h1>Edit Post</h1>
+    <p class="subtitle">Update your post content</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading post...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- Error Message -->
+    <div class="form-error" *ngIf="errorMessage">
+      <p class="error-text">{{ errorMessage }}</p>
+    </div>
+
+    <form [formGroup]="editPostForm" (ngSubmit)="onSubmit()" class="edit-post-form" *ngIf="currentPost && !errorMessage">
+      <!-- Title Field -->
+      <div class="form-group">
+        <label for="title" class="form-label">
+          Post Title *
+          <span class="char-count">({{ getTitleCharCount() }}/100)</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-control"
+          [class.invalid]="isFieldInvalid('title')"
+          placeholder="Enter a descriptive title for your post"
+          maxlength="100"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('title')">
+          {{ getFieldError('title') }}
+        </div>
+      </div>
+
+      <!-- Department Field -->
+      <div class="form-group">
+        <label for="department" class="form-label">Department *</label>
+        <select
+          id="department"
+          formControlName="departmentId"
+          class="form-control"
+          [class.invalid]="isFieldInvalid('departmentId')"
+        >
+          <option value="" disabled>Select a department</option>
+          <option 
+            *ngFor="let dept of departments" 
+            [value]="dept.departmentId"
+          >
+            {{ dept.name }}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="isFieldInvalid('departmentId')">
+          {{ getFieldError('departmentId') }}
+        </div>
+      </div>
+
+      <!-- Content Field -->
+      <div class="form-group">
+        <label for="content" class="form-label">
+          Post Content *
+          <span class="char-count">({{ getContentCharCount() }}/1000)</span>
+        </label>
+        <textarea
+          id="content"
+          formControlName="content"
+          class="form-control content-textarea"
+          [class.invalid]="isFieldInvalid('content')"
+          placeholder="Write your post content here... Share your thoughts, questions, or information with your colleagues."
+          maxlength="1000"
+          rows="8"
+        ></textarea>
+        <div class="error-message" *ngIf="isFieldInvalid('content')">
+          {{ getFieldError('content') }}
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onCancel()"
+          [disabled]="isSubmitting"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!editPostForm.valid || isSubmitting"
+        >
+          <span *ngIf="isSubmitting" class="loading-spinner"></span>
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

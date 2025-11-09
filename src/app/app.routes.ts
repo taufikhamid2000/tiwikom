@@ -3,6 +3,7 @@ import { HomeComponent } from './features/home/home.component';
 import { PostListComponent } from './features/post-list/post-list.component';
 import { PostDetailComponent } from './features/post-detail/post-detail.component';
 import { CreatePostComponent } from './features/create-post/create-post.component';
+import { EditPostComponent } from './features/edit-post/edit-post.component';
 import { LoginComponent } from './features/login/login.component';
 import { SignupComponent } from './features/signup/signup.component';
 import { AdminComponent } from './features/admin/admin.component';
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'post-list', component: PostListComponent },
   { path: 'post/:id', component: PostDetailComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
+  { path: 'edit-post/:id', component: EditPostComponent, canActivate: [AuthGuard] },
   { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

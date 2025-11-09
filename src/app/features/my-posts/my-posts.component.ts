@@ -44,7 +44,7 @@ export class MyPostsComponent implements OnInit {
   }
 
   editPost(post: any): void {
-    // Navigate to edit page (will create later)
+    // Navigate to edit-post with post ID
     this.router.navigate(['/edit-post', post.postId]);
   }
 

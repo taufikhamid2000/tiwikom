@@ -28,12 +28,41 @@ export const mockPosts: Post[] = [
   {
     postId: '2',
     title: 'Printer setup for new laptops',
-    content: 'Install HP Smart → Add Printer → Choose “Company Printer HQ 02”.',
+    content: 'Install HP Smart → Add Printer → Choose "Company Printer HQ 02".',
     userId: 'u2',
     userName: 'Farah',
     departmentName: 'HR',
     createdAt: '2025-10-05T11:00:00Z',
     likes: 3,
+    comments: []
+  },
+  {
+    postId: '3',
+    title: 'Updated Security Policy 2025',
+    content: 'Please review the new security guidelines for handling sensitive data. All employees must complete the security training module by end of month.',
+    userId: 'u3',
+    userName: 'Rafiq',
+    departmentName: 'Operations',
+    createdAt: '2025-11-01T14:30:00Z',
+    likes: 12,
+    comments: [
+      {
+        commentId: 'c3',
+        content: 'Thanks for the important update!',
+        userName: 'Aiman',
+        createdAt: '2025-11-01T15:00:00Z'
+      }
+    ]
+  },
+  {
+    postId: '4',
+    title: 'Q4 Performance Review Schedule',
+    content: 'Q4 performance reviews will be conducted from November 15 to November 30. Please schedule your reviews with your direct managers. All reviews must be completed by end of Q4.',
+    userId: 'u3',
+    userName: 'Rafiq',
+    departmentName: 'Operations',
+    createdAt: '2025-11-03T10:15:00Z',
+    likes: 8,
     comments: []
   }
 ];

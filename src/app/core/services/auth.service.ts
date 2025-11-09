@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { StorageService } from './storage.service';
+import { mockUsers } from '../../mock-data/mock-users';
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +18,8 @@ export class AuthService {
     }
   }
 
-  // Simulate login by matching username/password
+  // Login by matching username/password from mockUsers
   login(username: string, password: string): boolean {
-    const mockUsers = [
-      {
-        userId: '1',
-        fullName: 'Admin User',
-        role: 'admin',
-        department: 'Management',
-        username: 'admin',
-        password: '12345'
-      },
-      {
-        userId: '2',
-        fullName: 'Regular User',
-        role: 'user',
-        department: 'Engineering',
-        username: 'user',
-        password: 'abcde'
-      }
-    ];
-
     const user = mockUsers.find(
       u => u.username === username && u.password === password
     );
