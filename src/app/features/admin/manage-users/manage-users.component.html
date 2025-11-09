@@ -190,6 +190,26 @@
           </button>
         </div>
       </form>
+
+      <!-- Success Message with Generated Password -->
+      <div *ngIf="generatedPassword" class="success-section">
+        <div class="success-message">
+          ✓ User created successfully!
+        </div>
+        <div class="password-info">
+          <p class="password-label">Temporary Password:</p>
+          <div class="password-display">
+            <code>{{ generatedPassword }}</code>
+            <button type="button" class="copy-btn" (click)="copyPasswordToClipboard()" title="Copy password">
+              📋 Copy
+            </button>
+          </div>
+          <p class="password-note">⚠️ Share this password with the user. They should change it on first login.</p>
+        </div>
+        <button type="button" class="btn btn-success" (click)="openAddUserForm()">
+          Add Another User
+        </button>
+      </div>
     </div>
   </div>
 </div>

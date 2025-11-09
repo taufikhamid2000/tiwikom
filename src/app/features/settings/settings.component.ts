@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../../core/services/theme.service';
+import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -27,7 +29,20 @@ export class SettingsComponent implements OnInit {
     { name: 'Pink', value: '#e91e63' }
   ];
 
-  constructor(private themeService: ThemeService, private cdr: ChangeDetectorRef) {}
+  // Password change properties
+  showChangePassword = false;
+  currentPassword = '';
+  newPassword = '';
+  confirmPassword = '';
+  passwordError = '';
+  passwordSuccess = '';
+
+  constructor(
+    private themeService: ThemeService,
+    private authService: AuthService,
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.isDarkMode = this.themeService.isDarkMode();
@@ -71,4 +86,70 @@ export class SettingsComponent implements OnInit {
     this.themeService.setThemeColor('#1976d2');
     this.cdr.markForCheck();
   }
+
+  toggleChangePassword(): void {
+    this.showChangePassword = !this.showChangePassword;
+    this.resetPasswordForm();
+    this.cdr.markForCheck();
+  }
+
+  resetPasswordForm(): void {
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+    this.passwordError = '';
+    this.passwordSuccess = '';
+  }
+
+  changePassword(): void {
+    this.passwordError = '';
+    this.passwordSuccess = '';
+
+    // Validation
+    if (!this.currentPassword) {
+      this.passwordError = 'Current password is required';
+      return;
+    }
+    if (!this.newPassword) {
+      this.passwordError = 'New password is required';
+      return;
+    }
+    if (this.newPassword.length < 4) {
+      this.passwordError = 'New password must be at least 4 characters';
+      return;
+    }
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordError = 'Passwords do not match';
+      return;
+    }
+    if (this.currentPassword === this.newPassword) {
+      this.passwordError = 'New password must be different from current password';
+      return;
+    }
+
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      this.passwordError = 'User not logged in';
+      return;
+    }
+
+    // Attempt to change password
+    const success = this.userService.changePassword(
+      currentUser.userId,
+      this.currentPassword,
+      this.newPassword
+    );
+
+    if (success) {
+      this.passwordSuccess = 'Password changed successfully!';
+      this.resetPasswordForm();
+      setTimeout(() => {
+        this.showChangePassword = false;
+        this.cdr.markForCheck();
+      }, 2000);
+    } else {
+      this.passwordError = 'Current password is incorrect';
+    }
+  }
 }
+

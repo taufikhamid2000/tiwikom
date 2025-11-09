@@ -597,3 +597,68 @@
   font-size: 0.95rem;
   &:hover { background: var(--success-dark, #45a049); }
 }
+
+.success-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color, #ddd);
+}
+
+.success-message {
+  padding: 12px 16px;
+  background-color: #efe;
+  color: #3a3;
+  border: 1px solid #bfb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.password-info {
+  background-color: #fafafa;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.password-label {
+  margin: 0 0 8px 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color, #333);
+}
+
+.password-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  code {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--border-color, #ddd);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    word-break: break-all;
+  }
+  .copy-btn {
+    background: #2196F3;
+    color: #fff;
+    border: 0;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    &:hover { background: #0b7dda; }
+  }
+}
+
+.password-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-color, #666);
+}

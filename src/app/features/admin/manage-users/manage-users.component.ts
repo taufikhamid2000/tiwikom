@@ -21,8 +21,9 @@ export class ManageUsersComponent implements OnInit {
   showDeleteConfirm = false;
   deleteUserId: string | null = null;
   showAddUserForm = false;
-  newUser: User = { userId: '', fullName: '', role: 'User', department: '' };
+  newUser: User = { userId: '', fullName: '', role: 'User', department: '', password: '' };
   addUserError = '';
+  generatedPassword = '';
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -158,13 +159,15 @@ export class ManageUsersComponent implements OnInit {
 
   openAddUserForm(): void {
     this.showAddUserForm = true;
-    this.newUser = { userId: '', fullName: '', role: 'User', department: '' };
+    this.newUser = { userId: '', fullName: '', role: 'User', department: '', password: '' };
+    this.generatedPassword = '';
     this.addUserError = '';
   }
 
   closeAddUserForm(): void {
     this.showAddUserForm = false;
-    this.newUser = { userId: '', fullName: '', role: 'User', department: '' };
+    this.newUser = { userId: '', fullName: '', role: 'User', department: '', password: '' };
+    this.generatedPassword = '';
     this.addUserError = '';
   }
 
@@ -185,15 +188,28 @@ export class ManageUsersComponent implements OnInit {
       return;
     }
 
-    // Attempt to add user
+    // Attempt to add user (service will generate password)
     const success = this.userService.addUser(this.newUser);
     if (!success) {
       this.addUserError = 'User ID already exists. Please use a different ID.';
       return;
     }
 
-    // Success - reload and close form
+    // Get the created user to show their password
+    const createdUser = this.userService.getUserById(this.newUser.userId);
+    if (createdUser) {
+      this.generatedPassword = createdUser.password || '';
+    }
+
+    // Success - reload list
     this.loadUsers();
-    this.closeAddUserForm();
+  }
+
+  copyPasswordToClipboard(): void {
+    if (this.generatedPassword) {
+      navigator.clipboard.writeText(this.generatedPassword).then(() => {
+        alert('Password copied to clipboard!');
+      });
+    }
   }
 }
