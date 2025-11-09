@@ -6,33 +6,23 @@
   </div>
 
   <div class="controls-section">
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Search posts by title, content, or author..."
-        [(ngModel)]="searchQuery"
-        (input)="onSearchChange()"
-        class="search-input"
-      />
-    </div>
+    <!-- Post Filter Component -->
+    <app-post-filter
+      [searchQuery]="searchQuery"
+      [sortBy]="sortBy"
+      [pageSize]="pageSize"
+      [currentPage]="currentPage"
+      [totalItems]="filteredPosts.length"
+      placeholder="Search posts by title, content, or author..."
+      (filterChange)="onFilterChange($event)"
+      (pageChange)="onPageChange($event)"
+    ></app-post-filter>
 
-    <div class="controls-row">
-      <div class="sort-control">
-        <label for="sortBy">Sort by:</label>
-        <select id="sortBy" [(ngModel)]="sortBy" (change)="onSortChange()" class="sort-select">
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="mostLikes">Most Likes</option>
-          <option value="mostComments">Most Comments</option>
-        </select>
-      </div>
-
-      <div class="action-buttons" *ngIf="selectedPosts.size > 0">
-        <span class="selection-info">{{ selectedPosts.size }} selected</span>
-        <button class="btn btn-danger" (click)="deleteSelectedPosts()">
-          Delete Selected
-        </button>
-      </div>
+    <div class="action-buttons" *ngIf="selectedPosts.size > 0">
+      <span class="selection-info">{{ selectedPosts.size }} selected</span>
+      <button class="btn btn-danger" (click)="deleteSelectedPosts()">
+        Delete Selected
+      </button>
     </div>
   </div>
 
@@ -45,13 +35,13 @@
           (change)="selectAll()"
           class="select-checkbox"
         />
-        <span>Select All</span>
+        <span>Select All on This Page</span>
       </div>
       <div class="posts-count">Total: {{ filteredPosts.length }} post(s)</div>
     </div>
 
     <div *ngIf="filteredPosts.length > 0; else noPosts" class="posts-list">
-      <div *ngFor="let post of filteredPosts" class="post-card" [class.selected]="isPostSelected(post.postId)">
+      <div *ngFor="let post of paginatedPosts" class="post-card" [class.selected]="isPostSelected(post.postId)">
         <div class="post-checkbox">
           <input
             type="checkbox"

@@ -4,11 +4,23 @@
     <button class="btn-create" routerLink="/create-post">+ Create New Post</button>
   </div>
 
-  <div *ngIf="posts.length === 0" class="empty">
-    <p>No posts available yet.</p>
+  <!-- Post Filter Component -->
+  <app-post-filter
+    [searchQuery]="searchQuery"
+    [sortBy]="sortBy"
+    [pageSize]="pageSize"
+    [currentPage]="currentPage"
+    [totalItems]="filteredPosts.length"
+    (filterChange)="onFilterChange($event)"
+    (pageChange)="onPageChange($event)"
+  ></app-post-filter>
+
+  <div *ngIf="filteredPosts.length === 0" class="empty">
+    <p *ngIf="posts.length === 0">No posts available yet.</p>
+    <p *ngIf="posts.length > 0">No posts match your search criteria.</p>
   </div>
 
-  <div *ngFor="let post of posts" class="post-card">
+  <div *ngFor="let post of paginatedPosts" class="post-card">
     <h3>{{ post.title }}</h3>
     <p class="meta">
       by {{ post.userName }} — {{ post.departmentName }}

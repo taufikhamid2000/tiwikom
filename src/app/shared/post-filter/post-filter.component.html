@@ -1,0 +1,95 @@
+<div class="post-filter-container">
+  <div class="filter-controls">
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="{{ placeholder }}"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input"
+      />
+      <button 
+        *ngIf="searchQuery" 
+        (click)="onSearchClear()" 
+        class="clear-btn" 
+        title="Clear search"
+      >
+        ✕
+      </button>
+    </div>
+
+    <div class="sort-control">
+      <label for="sortBy">Sort by:</label>
+      <select 
+        id="sortBy" 
+        [(ngModel)]="sortBy" 
+        (change)="onSortChange()" 
+        class="sort-select"
+      >
+        <option 
+          *ngFor="let option of sortOptions" 
+          [value]="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="totalItems > 0" class="pagination-controls">
+    <div class="pagination-info">
+      <span>{{ paginationInfo }}</span>
+    </div>
+
+    <div class="page-size-control">
+      <label for="pageSize">Items per page:</label>
+      <select 
+        id="pageSize" 
+        [(ngModel)]="pageSize" 
+        (change)="onPageSizeChange()" 
+        class="page-size-select"
+      >
+        <option 
+          *ngFor="let size of pageSizeOptions" 
+          [value]="size"
+        >
+          {{ size }}
+        </option>
+      </select>
+    </div>
+
+    <div class="pagination-buttons">
+      <button 
+        class="nav-btn" 
+        (click)="onPreviousPage()" 
+        [disabled]="currentPage === 1"
+        title="Previous page"
+      >
+        ← Previous
+      </button>
+
+      <div class="page-input-group">
+        <input 
+          type="number" 
+          [(ngModel)]="currentPage"
+          (change)="onPageInputChange()"
+          [min]="1"
+          [max]="totalPages"
+          class="page-input"
+          title="Go to page"
+        />
+        <span class="page-count">of {{ totalPages }}</span>
+      </div>
+
+      <button 
+        class="nav-btn" 
+        (click)="onNextPage()" 
+        [disabled]="currentPage === totalPages"
+        title="Next page"
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</div>

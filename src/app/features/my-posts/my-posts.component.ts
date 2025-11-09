@@ -3,21 +3,28 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { PostService } from '../../core/services/post.service';
 import { AuthService } from '../../core/services/auth.service';
+import { PostFilterComponent, PostFilterOptions, PaginationOptions } from '../../shared/post-filter/post-filter.component';
 
 @Component({
   selector: 'app-my-posts',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PostFilterComponent],
   templateUrl: './my-posts.component.html',
   styleUrls: ['./my-posts.component.scss']
 })
 export class MyPostsComponent implements OnInit {
   userPosts: any[] = [];
+  filteredPosts: any[] = [];
+  paginatedPosts: any[] = [];
   currentUserId = '';
   isLoading = true;
   selectedPost: any = null;
   showDeleteConfirm = false;
   postToDelete: any = null;
+  searchQuery = '';
+  sortBy: 'newest' | 'oldest' | 'mostLikes' | 'mostComments' = 'newest';
+  pageSize = 5;
+  currentPage = 1;
 
   constructor(
     private postService: PostService,
@@ -37,6 +44,60 @@ export class MyPostsComponent implements OnInit {
   loadUserPosts(): void {
     const allPosts = this.postService.getPosts();
     this.userPosts = allPosts.filter(post => post.userId === this.currentUserId);
+    this.applyFiltersAndSort();
+  }
+
+  applyFiltersAndSort(): void {
+    let filtered = [...this.userPosts];
+
+    // Apply search filter
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        post =>
+          post.title.toLowerCase().includes(query) ||
+          post.content.toLowerCase().includes(query)
+      );
+    }
+
+    // Apply sorting
+    switch (this.sortBy) {
+      case 'oldest':
+        filtered.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        break;
+      case 'mostLikes':
+        filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        break;
+      case 'mostComments':
+        filtered.sort((a, b) => (b.comments?.length || 0) - (a.comments?.length || 0));
+        break;
+      case 'newest':
+      default:
+        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        break;
+    }
+
+    this.filteredPosts = filtered;
+    this.updatePaginatedPosts();
+  }
+
+  updatePaginatedPosts(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPosts = this.filteredPosts.slice(startIndex, endIndex);
+  }
+
+  onFilterChange(options: PostFilterOptions): void {
+    this.searchQuery = options.searchQuery;
+    this.sortBy = options.sortBy;
+    this.currentPage = 1;
+    this.applyFiltersAndSort();
+  }
+
+  onPageChange(options: PaginationOptions): void {
+    this.pageSize = options.pageSize;
+    this.currentPage = options.currentPage;
+    this.updatePaginatedPosts();
   }
 
   selectPost(post: any): void {

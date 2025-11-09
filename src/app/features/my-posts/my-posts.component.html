@@ -4,9 +4,21 @@
     <p class="subtitle">Manage your published content</p>
   </div>
 
-  <div *ngIf="userPosts.length > 0; else noPosts" class="posts-section">
+  <!-- Post Filter Component -->
+  <app-post-filter
+    [searchQuery]="searchQuery"
+    [sortBy]="sortBy"
+    [placeholder]="'Search your posts...'"
+    [pageSize]="pageSize"
+    [currentPage]="currentPage"
+    [totalItems]="filteredPosts.length"
+    (filterChange)="onFilterChange($event)"
+    (pageChange)="onPageChange($event)"
+  ></app-post-filter>
+
+  <div *ngIf="filteredPosts.length > 0; else noPosts" class="posts-section">
     <div class="posts-list">
-      <div *ngFor="let post of userPosts" class="post-card" [class.selected]="selectedPost?.postId === post.postId">
+      <div *ngFor="let post of paginatedPosts" class="post-card" [class.selected]="selectedPost?.postId === post.postId">
         <div class="post-card-header" (click)="selectPost(post)">
           <div class="post-title-section">
             <h3>{{ post.title }}</h3>
@@ -41,9 +53,10 @@
   <ng-template #noPosts>
     <div class="empty-state">
       <div class="empty-icon">📝</div>
-      <h2>No Posts Yet</h2>
-      <p>You haven't created any posts. Start sharing your knowledge today!</p>
-      <button class="btn btn-primary" routerLink="/create-post">Create Your First Post</button>
+      <h2>{{ userPosts.length > 0 ? 'No matching posts' : 'No Posts Yet' }}</h2>
+      <p *ngIf="userPosts.length === 0">You haven't created any posts. Start sharing your knowledge today!</p>
+      <p *ngIf="userPosts.length > 0 && searchQuery">No posts match your search criteria.</p>
+      <button *ngIf="userPosts.length === 0" class="btn btn-primary" routerLink="/create-post">Create Your First Post</button>
     </div>
   </ng-template>
 

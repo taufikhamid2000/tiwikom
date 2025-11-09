@@ -1,25 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostService } from '../../../core/services/post.service';
 import { Post } from '../../../core/models/post.model';
+import { PostFilterComponent, PostFilterOptions, PaginationOptions } from '../../../shared/post-filter/post-filter.component';
 
 @Component({
   selector: 'app-manage-posts',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, PostFilterComponent],
   templateUrl: './manage-posts.component.html',
   styleUrls: ['./manage-posts.component.scss']
 })
 export class ManagePostsComponent implements OnInit {
   posts: Post[] = [];
   filteredPosts: Post[] = [];
+  paginatedPosts: Post[] = [];
   searchQuery = '';
   sortBy: 'newest' | 'oldest' | 'mostLikes' | 'mostComments' = 'newest';
   selectedPosts: Set<string> = new Set();
   showDeleteConfirm = false;
   deletePostId: string | null = null;
+  pageSize = 5;
+  currentPage = 1;
 
   constructor(private postService: PostService, private router: Router) {}
 
@@ -64,14 +67,26 @@ export class ManagePostsComponent implements OnInit {
     }
 
     this.filteredPosts = filtered;
+    this.updatePaginatedPosts();
   }
 
-  onSearchChange(): void {
+  updatePaginatedPosts(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPosts = this.filteredPosts.slice(startIndex, endIndex);
+  }
+
+  onFilterChange(options: PostFilterOptions): void {
+    this.searchQuery = options.searchQuery;
+    this.sortBy = options.sortBy;
+    this.currentPage = 1;
     this.applyFiltersAndSort();
   }
 
-  onSortChange(): void {
-    this.applyFiltersAndSort();
+  onPageChange(options: PaginationOptions): void {
+    this.pageSize = options.pageSize;
+    this.currentPage = options.currentPage;
+    this.updatePaginatedPosts();
   }
 
   toggleSelectPost(postId: string): void {
@@ -136,8 +151,7 @@ export class ManagePostsComponent implements OnInit {
   editPost(postId: string): void {
     const post = this.postService.getPostById(postId);
     if (post) {
-      // Navigate to create-post with edit mode
-      this.router.navigate(['/create-post'], { queryParams: { id: postId, edit: true } });
+      this.router.navigate(['/edit-post', postId]);
     }
   }
 
@@ -148,7 +162,7 @@ export class ManagePostsComponent implements OnInit {
   formatDate(date: string | Date): string {
     if (!date) return 'N/A';
     const d = new Date(date);
-    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
   goBack(): void {
