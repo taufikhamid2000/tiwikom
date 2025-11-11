@@ -1,125 +1,154 @@
-<nav class="navbar">
-  <a
-    routerLink="/"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="brand"
-  >Tiwikom</a>
-
-  <!-- Hamburger Menu Icon -->
-  <button class="hamburger" (click)="toggleMenu()" [class.active]="isMenuOpen">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" [class.open]="isMenuOpen">
+<nav class="sidebar" [class.sidebar-dark]="isDarkMode" [class.sidebar-light]="!isDarkMode" [class.sidebar-open]="isMenuOpen" [class.sidebar-collapsed]="isCollapsed">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
     <a
-      routerLink="/home"
+      class="sidebar-brand"
+      routerLink="/"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       (click)="closeMenu()"
-    >Home</a>
+      [class.brand-hidden]="isCollapsed"
+    >
+      <span class="brand-icon">🧠</span>
+      <span class="brand-text">Tiwikom</span>
+    </a>
 
-    <a
-      routerLink="/post-list"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >Posts</a>
+    <!-- Collapse/Expand Button (Desktop) -->
+    <button
+      class="sidebar-collapse d-none d-lg-flex"
+      type="button"
+      (click)="toggleCollapse()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-label="Toggle sidebar"
+      title="Collapse sidebar"
+    >
+      <i class="bi" [class.bi-chevron-left]="!isCollapsed" [class.bi-chevron-right]="isCollapsed"></i>
+    </button>
 
-    <a
-      *ngIf="isLoggedIn()"
-      routerLink="/create-post"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="create-post-link"
-      (click)="closeMenu()"
-    >+ Create</a>
-
-    <a
-      *ngIf="isLoggedIn()"
-      routerLink="/my-posts"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >My Posts</a>
-
-    <a
-      routerLink="/admin"
-      *ngIf="isAdmin()"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >Admin</a>
-
-    <a
-      routerLink="/settings"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >Settings</a>
-
-    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
-
-    <a
-      *ngIf="!isLoggedIn()"
-      routerLink="/login"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >Login</a>
+    <!-- Mobile Close Button -->
+    <button
+      class="sidebar-close d-lg-none"
+      type="button"
+      (click)="toggleMenu()"
+      aria-label="Close sidebar"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
   </div>
 
-  <!-- Desktop Menu -->
-  <div class="links">
-    <a
-      routerLink="/home"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >Home</a>
+  <!-- Sidebar Navigation -->
+  <div class="sidebar-menu">
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/home"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-house-door"></i>
+          <span>Home</span>
+        </a>
+      </li>
 
-    <a
-      routerLink="/post-list"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >Posts</a>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/post-list"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-collection"></i>
+          <span>Posts</span>
+        </a>
+      </li>
 
-    <a
-      *ngIf="isLoggedIn()"
-      routerLink="/create-post"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >+ Create</a>
+      <li class="nav-item" *ngIf="isLoggedIn()">
+        <a
+          class="nav-link"
+          routerLink="/create-post"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-plus-circle"></i>
+          <span>Create Post</span>
+        </a>
+      </li>
 
-    <a
-      *ngIf="isLoggedIn()"
-      routerLink="/my-posts"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >My Posts</a>
+      <li class="nav-item" *ngIf="isLoggedIn()">
+        <a
+          class="nav-link"
+          routerLink="/my-posts"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-file-text"></i>
+          <span>My Posts</span>
+        </a>
+      </li>
 
-    <a
-      routerLink="/admin"
-      *ngIf="isAdmin()"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >Admin</a>
+      <li class="nav-item" *ngIf="isAdmin()">
+        <a
+          class="nav-link"
+          routerLink="/admin"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-gear"></i>
+          <span>Admin</span>
+        </a>
+      </li>
 
-    <a
-      routerLink="/settings"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >Settings</a>
+      <li class="nav-divider" *ngIf="isLoggedIn() || isAdmin()"></li>
 
-    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/settings"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-sliders"></i>
+          <span>Settings</span>
+        </a>
+      </li>
 
-    <a
-      *ngIf="!isLoggedIn()"
-      routerLink="/login"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >Login</a>
+      <li class="nav-item" *ngIf="isLoggedIn()">
+        <button class="nav-link nav-link-button" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </button>
+      </li>
+
+      <li class="nav-item" *ngIf="!isLoggedIn()">
+        <a
+          class="nav-link"
+          routerLink="/login"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeMenu()"
+        >
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Login</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </nav>
+
+<!-- Mobile Sidebar Toggle Button (Fixed to top-left) -->
+<button
+  class="sidebar-toggle d-lg-none"
+  type="button"
+  (click)="toggleMenu()"
+  [attr.aria-expanded]="isMenuOpen"
+  aria-label="Toggle sidebar"
+>
+  <i class="bi bi-list"></i>
+</button>

@@ -1,39 +1,68 @@
-<div class="home-container">
-  <section class="hero">
-    <div class="hero-text">
-      <h1>🧠 TIWIKOM FD</h1>
-      <h2>Things I Wish I Knew On My First Day</h2>
-      <p>
-        A platform for teams to share onboarding tips and real workplace insights —
-        making every first day easier and smarter.
-      </p>
-
-      <div class="actions">
-        <a routerLink="/post-list" class="btn btn-primary">Explore Posts</a>
-        <a routerLink="/signup" class="btn btn-secondary">Join Now</a>
+<div class="container my-5">
+  <!-- Hero Section -->
+  <section class="py-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold mb-3">🧠 TIWIKOM FD</h1>
+        <h2 class="h3 mb-4" style="color: inherit; opacity: 0.8;">Things I Wish I Knew On My First Day</h2>
+        <p class="lead mb-4">
+          A platform for teams to share onboarding tips and real workplace insights —
+          making every first day easier and smarter.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a routerLink="/post-list" class="btn btn-primary btn-lg">
+            <i class="bi bi-collection"></i> Explore Posts
+          </a>
+          <a routerLink="/signup" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-person-plus"></i> Join Now
+          </a>
+        </div>
       </div>
-    </div>
 
-    <div class="hero-image">
-      <!-- <img src="assets/images/default-profile.png" alt="Team Collaboration" /> -->
-      <img src="assets/images/default-profile.png" alt="Profile" />
+      <div class="col-lg-6 text-center">
+        <img
+          src="assets/images/default-profile.png"
+          alt="Team Collaboration"
+          class="img-fluid rounded shadow"
+          style="max-width: 400px;"
+        />
+      </div>
     </div>
   </section>
 
-  <section class="features">
-    <div class="feature-card">
-      <h3>💬 Share Experiences</h3>
-      <p>Post what you wish you knew on your first day to help new teammates grow faster.</p>
-    </div>
+  <!-- Features Section -->
+  <section class="py-5 mt-5">
+    <h2 class="text-center mb-5 fw-bold">Why Choose Tiwikom?</h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm home-card">
+          <div class="card-body text-center">
+            <div class="fs-1 mb-3">💬</div>
+            <h5 class="card-title">Share Experiences</h5>
+            <p class="card-text">Post what you wish you knew on your first day to help new teammates grow faster.</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="feature-card">
-      <h3>🧑‍💻 Learn Quickly</h3>
-      <p>Read practical onboarding insights directly from senior employees.</p>
-    </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm home-card">
+          <div class="card-body text-center">
+            <div class="fs-1 mb-3">🧑‍💻</div>
+            <h5 class="card-title">Learn Quickly</h5>
+            <p class="card-text">Read practical onboarding insights directly from senior employees.</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="feature-card">
-      <h3>🏢 Build Company Culture</h3>
-      <p>Encourage open knowledge sharing and make onboarding part of your culture.</p>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm home-card">
+          <div class="card-body text-center">
+            <div class="fs-1 mb-3">🏢</div>
+            <h5 class="card-title">Build Company Culture</h5>
+            <p class="card-text">Encourage open knowledge sharing and make onboarding part of your culture.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </div>

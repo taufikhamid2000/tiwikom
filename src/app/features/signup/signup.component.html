@@ -1,98 +1,121 @@
-<div class="signup-container">
-  <div class="signup-card">
-    <h2>Create Account</h2>
-    
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
-    </div>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <h2 class="card-title text-center mb-4 fw-bold">
+            <i class="bi bi-person-plus"></i> Create Account
+          </h2>
 
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ successMessage }}
+          </div>
+
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
+            </div>
+
+            <div class="mb-3">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                formControlName="fullName"
+                placeholder="John Doe"
+                [class.is-invalid]="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched"
+              />
+              <div class="invalid-feedback d-block" *ngIf="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched">
+                {{ getErrorMessage('fullName') }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                placeholder="johndoe"
+                [class.is-invalid]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched"
+              />
+              <div class="invalid-feedback d-block" *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
+                {{ getErrorMessage('username') }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                placeholder="john@example.com"
+                [class.is-invalid]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+              />
+              <div class="invalid-feedback d-block" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                {{ getErrorMessage('email') }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                placeholder="At least 6 characters"
+                [class.is-invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+              />
+              <div class="invalid-feedback d-block" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+                {{ getErrorMessage('password') }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                placeholder="Confirm your password"
+                [class.is-invalid]="(signupForm.get('confirmPassword')?.invalid || signupForm.hasError('passwordMismatch')) && signupForm.get('confirmPassword')?.touched"
+              />
+              <div class="invalid-feedback d-block" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.hasError('passwordMismatch')">
+                {{ getErrorMessage('confirmPassword') }}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mb-3"
+              [disabled]="signupForm.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">
+                <i class="bi bi-person-check"></i> Create Account
+              </span>
+              <span *ngIf="isLoading">
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Creating...
+              </span>
+            </button>
+          </form>
+
+          <hr />
+
+          <div class="text-center">
+            <p class="text-muted mb-0">
+              Already have an account?
+              <a (click)="goToLogin()" class="link-primary fw-bold cursor-pointer">Sign in here</a>
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label for="fullName">Full Name</label>
-        <input
-          type="text"
-          id="fullName"
-          formControlName="fullName"
-          placeholder="John Doe"
-          [class.is-invalid]="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched"
-        />
-        <small class="error-text" *ngIf="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched">
-          {{ getErrorMessage('fullName') }}
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          formControlName="username"
-          placeholder="johndoe"
-          [class.is-invalid]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched"
-        />
-        <small class="error-text" *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
-          {{ getErrorMessage('username') }}
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="john@example.com"
-          [class.is-invalid]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
-        />
-        <small class="error-text" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-          {{ getErrorMessage('email') }}
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="At least 6 characters"
-          [class.is-invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
-        />
-        <small class="error-text" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-          {{ getErrorMessage('password') }}
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          formControlName="confirmPassword"
-          placeholder="Confirm your password"
-          [class.is-invalid]="(signupForm.get('confirmPassword')?.invalid || signupForm.hasError('passwordMismatch')) && signupForm.get('confirmPassword')?.touched"
-        />
-        <small class="error-text" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.hasError('passwordMismatch')">
-          {{ getErrorMessage('confirmPassword') }}
-        </small>
-      </div>
-
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="signupForm.invalid || isLoading"
-      >
-        <span *ngIf="!isLoading">Create Account</span>
-        <span *ngIf="isLoading" class="spinner"></span>
-      </button>
-    </form>
-
-    <div class="login-link">
-      <p>Already have an account? <a (click)="goToLogin()" class="link">Sign in here</a></p>
     </div>
   </div>
 </div>
